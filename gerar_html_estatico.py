@@ -18,37 +18,85 @@ html_content = f"""<!DOCTYPE html>
             box-sizing: border-box;
         }}
 
+        html {{
+            overflow-x: hidden;
+        }}
+
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 20px 0 0 0;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }}
+
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }}
+
+        .main-content {{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }}
 
         .container {{
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            padding: 50px;
             max-width: 700px;
             width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }}
+
+        .container:hover {{
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
         }}
 
         h1 {{
-            color: #134074;
+            color: #1e293b;
             text-align: center;
             margin-bottom: 10px;
-            font-size: 28px;
+            font-size: 32px;
+            font-weight: 700;
         }}
 
         .subtitle {{
             text-align: center;
-            color: #666;
+            color: #64748b;
             margin-bottom: 30px;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
         }}
 
         .search-box {{
@@ -59,46 +107,50 @@ html_content = f"""<!DOCTYPE html>
         label {{
             display: block;
             margin-bottom: 8px;
-            color: #134074;
+            color: #1e293b;
             font-weight: 600;
+            font-size: 15px;
         }}
 
         input[type="text"] {{
             width: 100%;
-            padding: 15px 20px;
+            padding: 16px 20px;
             font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            background: white;
         }}
 
         input[type="text"]:focus {{
-            border-color: #0066cc;
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            border-color: #7e22ce;
+            box-shadow: 0 0 0 4px rgba(126, 34, 206, 0.1);
+            transform: translateY(-2px);
         }}
 
         button {{
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(126, 34, 206, 0.3);
         }}
 
         button:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(126, 34, 206, 0.4);
         }}
 
         button:active {{
-            transform: translateY(0);
+            transform: translateY(-1px);
         }}
 
         .result {{
@@ -192,34 +244,63 @@ html_content = f"""<!DOCTYPE html>
             font-size: 12px;
         }}
 
+        .page-footer {{
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            left: 0;
+            right: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 2;
+        }}
+
+        .page-footer img {{
+            height: 40px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }}
+
+        .page-footer p {{
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 11px;
+            line-height: 1.8;
+            margin: 0;
+        }}
+
         .info-box {{
-            background: #f0f7ff;
-            border-left: 4px solid #0066cc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border-left: 4px solid #7e22ce;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(126, 34, 206, 0.1);
         }}
 
         .info-box p {{
-            color: #134074;
+            color: #4c1d95;
             font-size: 14px;
             line-height: 1.6;
+            margin: 0;
+            font-weight: 500;
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏥 Consulta Região de Saúde</h1>
-        <p class="subtitle">Ministério da Saúde - Secretaria de Atenção Primária à Saúde</p>
+    <div class="main-content">
+        <div class="container">
+            <h1>🏥 Consulta Região de Saúde</h1>
         
-        <div class="info-box">
-            <p>📍 Digite o nome do município para descobrir sua região de saúde</p>
-        </div>
+            <div class="info-box">
+                <p>📍 Digite o nome do município para descobrir sua região de saúde</p>
+            </div>
 
-        <div class="search-box">
-            <label for="municipio">Nome do Município:</label>
-            <input type="text" id="municipio" placeholder="Ex: São Paulo, Rio de Janeiro, Brasília..." autocomplete="off">
-            <div class="suggestions" id="suggestions"></div>
+            <div class="search-box">
+                <label for="municipio">Nome do Município:</label>
+                <input type="text" id="municipio" placeholder="Ex: São Paulo, Rio de Janeiro, Brasília..." autocomplete="off">
+                <div class="suggestions" id="suggestions"></div>
         </div>
 
         <button onclick="buscarRegiao()">🔍 Buscar Região de Saúde</button>
@@ -227,7 +308,8 @@ html_content = f"""<!DOCTYPE html>
         <div class="result" id="result"></div>
 
         <div class="footer">
-            <p>Dados atualizados em Outubro de 2025 | Ministério da Saúde</p>
+            <p>Dados atualizados em Outubro de 2025</p>
+        </div>
         </div>
     </div>
 
@@ -333,6 +415,15 @@ html_content = f"""<!DOCTYPE html>
             resultDiv.style.display = 'block';
         }}
     </script>
+
+    <footer class="page-footer">
+        <img src="imgs/logo.png" alt="Ministério da Saúde">
+        <p>
+            Secretaria de Atenção Primária à Saúde - SAPS<br>
+            Coordenação Geral de Monitoramento, Avaliação e Inteligência Analítica - CGMAIA<br>
+            Ministério da Saúde 2025 - Todos os direitos reservados.
+        </p>
+    </footer>
 </body>
 </html>"""
 
