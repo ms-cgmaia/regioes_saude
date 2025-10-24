@@ -20,6 +20,7 @@ html_content = f"""<!DOCTYPE html>
 
         html {{
             overflow-x: hidden;
+            height: 100%;
         }}
 
         body {{
@@ -29,7 +30,6 @@ html_content = f"""<!DOCTYPE html>
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
             padding: 20px 0 0 0;
             margin: 0;
@@ -53,12 +53,12 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         .main-content {{
-            flex: 1;
+            flex: 1 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 0 20px;
+            padding: 0 20px 40px 20px;
             position: relative;
             z-index: 1;
         }}
@@ -255,6 +255,8 @@ html_content = f"""<!DOCTYPE html>
             right: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 2;
+            flex-shrink: 0;
+            margin-top: auto;
         }}
 
         .page-footer img {{
