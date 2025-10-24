@@ -386,24 +386,58 @@
                 return;
             }
 
-            // Agrupar por região de saúde (caso haja mais de uma)
-            const regioes = [...new Set(encontrados.map(e => e.NO_REGIAO_SAUDE))];
-            const uf = encontrados[0].UF;
+            // Agrupar por UF (caso haja municípios com mesmo nome em estados diferentes)
+            const porUF = {};
+            encontrados.forEach(e => {
+                if (!porUF[e.UF]) {
+                    porUF[e.UF] = [];
+                }
+                porUF[e.UF].push(e.NO_REGIAO_SAUDE);
+            });
 
-            let html = `
-                <h3>✅ Resultado da Consulta</h3>
-                <p><strong>Município:</strong> ${input}</p>
-                <p><strong>UF:</strong> ${uf}</p>
-            `;
-
-            if (regioes.length === 1) {
-                html += `<p><strong>Região de Saúde:</strong> ${regioes[0]}</p>`;
+            const ufs = Object.keys(porUF);
+            
+            let html = `<h3>✅ Resultado da Consulta</h3>`;
+            
+            if (ufs.length === 1) {
+                // Apenas um estado
+                const uf = ufs[0];
+                const regioes = [...new Set(porUF[uf])];
+                
+                html += `
+                    <p><strong>Município:</strong> ${input}</p>
+                    <p><strong>UF:</strong> ${uf}</p>
+                `;
+                
+                if (regioes.length === 1) {
+                    html += `<p><strong>Região de Saúde:</strong> ${regioes[0]}</p>`;
+                } else {
+                    html += `<p><strong>Regiões de Saúde:</strong></p><ul>`;
+                    regioes.forEach(r => {
+                        html += `<li>${r}</li>`;
+                    });
+                    html += `</ul>`;
+                }
             } else {
-                html += `<p><strong>Regiões de Saúde:</strong></p><ul>`;
-                regioes.forEach(r => {
-                    html += `<li>${r}</li>`;
+                // Múltiplos estados com o mesmo nome de município
+                html += `<p>⚠️ Existem <strong>${ufs.length}</strong> municípios com o nome "<strong>${input}</strong>":</p>`;
+                
+                ufs.forEach(uf => {
+                    const regioes = [...new Set(porUF[uf])];
+                    html += `<div style="margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #7e22ce;">`;
+                    html += `<p><strong>${input} - ${uf}</strong></p>`;
+                    
+                    if (regioes.length === 1) {
+                        html += `<p style="margin-top: 8px;"><strong>Região de Saúde:</strong> ${regioes[0]}</p>`;
+                    } else {
+                        html += `<p style="margin-top: 8px;"><strong>Regiões de Saúde:</strong></p><ul style="margin-left: 20px;">`;
+                        regioes.forEach(r => {
+                            html += `<li>${r}</li>`;
+                        });
+                        html += `</ul>`;
+                    }
+                    html += `</div>`;
                 });
-                html += `</ul>`;
             }
 
             resultDiv.className = 'result success';
