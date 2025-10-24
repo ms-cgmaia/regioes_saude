@@ -258,8 +258,9 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         .page-footer img {{
-            height: 40px;
-            margin-bottom: 15px;
+            height: 60px;
+            margin-bottom: -3px;
+            margin-top: -10px;
             opacity: 0.9;
         }}
 
