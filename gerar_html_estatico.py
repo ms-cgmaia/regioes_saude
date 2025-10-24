@@ -227,7 +227,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="result" id="result"></div>
 
         <div class="footer">
-            <p>Dados atualizados em 2025 | Ministério da Saúde</p>
+            <p>Dados atualizados em Outubro de 2025 | Ministério da Saúde</p>
         </div>
     </div>
 
